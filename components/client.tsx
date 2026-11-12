@@ -150,6 +150,7 @@ export function Slider({
         ref={trackRef}
         id={trackId}
         tabIndex={0}
+        data-stagger="110"
         aria-label={`${label}, scroll horizontally`}
         className="slider-track flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-2 focus-visible:outline-offset-[-2px] sm:gap-6"
       >
@@ -416,7 +417,7 @@ export function Faq() {
         const btnId = `${base}-q${i}`;
         const panelId = `${base}-a${i}`;
         return (
-          <li key={f.q}>
+          <li key={f.q} data-reveal="up">
             <h3 className="font-sans text-[14px] font-bold normal-case leading-snug text-ink [font-variation-settings:normal]">
               <button
                 id={btnId}

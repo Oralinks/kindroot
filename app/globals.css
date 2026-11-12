@@ -149,6 +149,71 @@
   }
 }
 
+/* ---------- Scroll-triggered motion ----------
+   Hidden start states apply only under html.motion (set before first paint,
+   never for reduced-motion visitors). components/scroll-motion.tsx adds
+   .is-in when an element scrolls into view. */
+html.motion [data-reveal] {
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 1.1s var(--ease-out-expo),
+    clip-path 1.2s var(--ease-out-expo),
+    filter 0.9s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html.motion [data-reveal="up"] { opacity: 0; transform: translate3d(0, 36px, 0); }
+html.motion [data-reveal="left"] { opacity: 0; transform: translate3d(-48px, 0, 0); }
+html.motion [data-reveal="right"] { opacity: 0; transform: translate3d(48px, 0, 0); }
+html.motion [data-reveal="scale"] { opacity: 0; transform: scale(0.94); }
+html.motion [data-reveal="fade"] { opacity: 0; filter: blur(6px); }
+/* Images wipe open from the bottom / from the left */
+html.motion [data-reveal="clip"] { clip-path: inset(100% 0 0 0 round 22px); }
+html.motion [data-reveal="clip-left"] { clip-path: inset(0 100% 0 0 round 22px); }
+/* Impact bars rise out of the baseline without squashing their text */
+html.motion [data-reveal="rise"] { clip-path: inset(100% 0 0 0 round 20px); transition-duration: 0.9s, 1.1s, 1.4s, 0.9s; }
+
+html.motion [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  clip-path: inset(0 0 0 0 round 0);
+}
+html.motion [data-reveal="clip"].is-in,
+html.motion [data-reveal="clip-left"].is-in { clip-path: inset(0 0 0 0 round 22px); }
+html.motion [data-reveal="rise"].is-in { clip-path: inset(0 0 0 0 round 20px); }
+
+/* Yellow marker draws itself under the key word once its heading is in */
+/* (Hidden while ANY revealing ancestor is still out, so nested reveals wait for the innermost.) */
+html.motion .mark::after {
+  transition: transform 0.9s var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-delay, 0ms) + 350ms);
+}
+html.motion [data-reveal]:not(.is-in) .mark::after { transform: rotate(-0.6deg) scaleX(0); }
+
+/* Campaign progress bars fill once their card is in */
+html.motion .progress-fill {
+  transform-origin: left center;
+  transition: transform 1.6s var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-delay, 0ms) + 300ms);
+}
+html.motion [data-reveal]:not(.is-in) .progress-fill { transform: scaleX(0); }
+
+/* Hero photo settles in on load */
+html.motion .hero-zoom { animation: hero-settle 2.4s var(--ease-out-expo) both; }
+@keyframes hero-settle {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+/* Accent shapes pop in, then keep a slow drift */
+html.motion [data-reveal="pop"] { opacity: 0; transform: scale(0.2) rotate(-90deg); transition-duration: 0.9s, 1.2s; }
+html.motion [data-reveal="pop"].is-in { opacity: 1; transform: none; }
+.drift { animation: drift 7s ease-in-out infinite alternate; }
+@keyframes drift {
+  from { translate: 0 0; rotate: 0deg; }
+  to { translate: 0 -10px; rotate: 25deg; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

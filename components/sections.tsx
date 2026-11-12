@@ -37,7 +37,7 @@ export function Hero() {
             fill
             preload
             sizes="100vw"
-            className="-z-20 object-cover object-[62%_center]"
+            className="hero-zoom -z-20 object-cover object-[62%_center]"
           />
           {/* Contrast scrims: left for the headline, top for the nav */}
           <div
@@ -51,26 +51,26 @@ export function Hero() {
           />
           {/* Top padding leaves room for the fixed header that floats over the hero */}
           <Container className="flex min-h-[640px] flex-col pb-20 pt-28 sm:min-h-[760px] lg:min-h-[820px] lg:pb-[150px]">
-            <div className="mt-auto max-w-[520px] pt-10">
-              <h1 id="hero-title" className="text-[56px] leading-[0.95] tracking-[-0.005em] sm:text-[76px] lg:text-[88px]">
+            <div data-stagger="130" className="mt-auto max-w-[520px] pt-10">
+              <h1 id="hero-title" data-reveal="up" className="text-[56px] leading-[0.95] tracking-[-0.005em] sm:text-[76px] lg:text-[88px]">
                 Building <Mark>brighter</Mark>,<br />
                 safe future.
               </h1>
-              <p className="mt-6 max-w-[400px] text-[15px] leading-[1.6] text-white/85">
+              <p data-reveal="up" className="mt-6 max-w-[400px] text-[15px] leading-[1.6] text-white/85">
                 We bring food, care and learning to families who need it most, and we keep coming back until life feels steady again.
               </p>
-              <PillLink href="#donate" className="mt-8">
+              <PillLink href="#donate" className="mt-8" reveal="up">
                 Donate now
               </PillLink>
             </div>
           </Container>
-          <Flower className="absolute bottom-[14%] left-[72%] hidden size-9 text-sun md:block" />
+          <Flower data-reveal="pop" className="drift absolute bottom-[14%] left-[72%] hidden size-9 text-sun md:block" />
         </section>
 
-        <div className="grid overflow-hidden rounded-b-[24px] md:grid-cols-2">
+        <div data-stagger="160" className="grid overflow-hidden rounded-b-[24px] md:grid-cols-2">
           {/* Yellow campaign panel */}
           <section aria-labelledby="promo-title" className="flex items-center justify-center bg-sun px-6 py-10 md:min-h-[304px] md:px-10">
-            <div className="flex w-full max-w-[460px] items-center gap-6">
+            <div data-reveal="up" className="flex w-full max-w-[460px] items-center gap-6">
               <div className="relative size-[120px] shrink-0 overflow-hidden rounded-[14px] sm:size-[164px]">
                 <Image src={asset("/images/food-aid.jpg")} alt="A woven bag packed with rice, vegetables, fruit and bread" fill sizes="164px" className="object-cover" />
               </div>
@@ -92,10 +92,12 @@ export function Hero() {
 
           {/* Pale green donation panel */}
           <section id="donate" aria-labelledby="donate-title" className="flex flex-col items-center justify-center bg-pale px-6 py-10 text-center md:min-h-[304px]">
-            <h2 id="donate-title" className="mb-5 text-[24px] leading-none text-ink sm:text-[28px]">
+            <h2 id="donate-title" data-reveal="up" className="mb-5 text-[24px] leading-none text-ink sm:text-[28px]">
               Make a donation today
             </h2>
-            <DonateForm />
+            <div data-reveal="up" className="w-full">
+              <DonateForm />
+            </div>
           </section>
         </div>
       </Inset>
@@ -109,16 +111,16 @@ export function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="pt-24 lg:pt-[120px]">
       <Container className="grid items-center gap-12 md:grid-cols-[1fr_minmax(0,460px)] lg:gap-16">
-        <div className="max-w-[520px]">
-          <p className="eyebrow">Who we are</p>
-          <h2 id="about-title" className="mt-4 text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
+        <div data-stagger="110" className="max-w-[520px]">
+          <p data-reveal="up" className="eyebrow">Who we are</p>
+          <h2 id="about-title" data-reveal="up" className="mt-4 text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
             Real change happens <br className="hidden lg:block" />
             with <Mark>consistency</Mark>.
           </h2>
-          <p className="mt-5 text-[15px] leading-[1.6] text-muted">
+          <p data-reveal="up" className="mt-5 text-[15px] leading-[1.6] text-muted">
             One-off help fades. We stay with the same families and schools year after year, so meals, classes and checkups become something people can count on.
           </p>
-          <ul className="mt-5 space-y-2.5 text-[14px] text-ink">
+          <ul data-reveal="up" className="mt-5 space-y-2.5 text-[14px] text-ink">
             {["Long-term partnerships with local leaders", "Support that grows as each community grows"].map((t) => (
               <li key={t} className="flex items-start gap-2.5">
                 <span aria-hidden="true" className="mt-[9px] size-1.5 shrink-0 rounded-full bg-coral" />
@@ -126,11 +128,11 @@ export function About() {
               </li>
             ))}
           </ul>
-          <PillLink href="#programs" tone="ink" className="mt-8">
+          <PillLink href="#programs" tone="ink" className="mt-8" reveal="up">
             Learn more
           </PillLink>
         </div>
-        <div className="relative aspect-square w-full overflow-hidden rounded-[22px]">
+        <div data-reveal="clip" className="relative aspect-square w-full overflow-hidden rounded-[22px]">
           <Image
             src={asset("/images/about.jpg")}
             alt="A boy in a red school sweater writing in his exercise book at a wooden desk"
@@ -163,7 +165,7 @@ export function Programs() {
       </Container>
       <Slider label="Our programs" className="mt-14">
         {programs.map((p) => (
-          <li key={p.title} className="group w-[min(86vw,480px)] shrink-0 snap-start">
+          <li key={p.title} data-reveal="up" className="group w-[min(86vw,480px)] shrink-0 snap-start">
             <article className="h-full rounded-[20px] bg-white p-3.5 sm:p-4">
               <div className="relative aspect-[16/9] overflow-hidden rounded-[12px] sm:aspect-auto sm:h-[245px]">
                 <Image
@@ -205,11 +207,11 @@ const barHeights = ["lg:h-[200px]", "lg:h-[300px]", "lg:h-[468px]"];
 export function Impact() {
   return (
     <Inset className="pt-24 lg:pt-[120px]">
-      <section aria-labelledby="impact-title" className="relative isolate overflow-hidden rounded-[24px] bg-ink text-white">
-        <Scribble className="pointer-events-none absolute -right-10 -top-24 -z-10 hidden w-[760px] text-[#1f4030] md:block" />
+      <section aria-labelledby="impact-title" data-reveal="scale" className="relative isolate overflow-hidden rounded-[24px] bg-ink text-white">
+        <Scribble data-reveal="fade" className="pointer-events-none absolute -right-10 -top-24 -z-10 hidden w-[760px] text-[#1f4030] md:block" />
         <Container className="relative pt-16 lg:pb-[58px] lg:pt-[72px]">
-          <div className="lg:grid lg:grid-cols-3 lg:grid-rows-[auto_300px] lg:gap-x-4">
-            <div className="lg:col-span-2 lg:row-start-1 lg:pb-10">
+          <div data-stagger="150" className="lg:grid lg:grid-cols-3 lg:grid-rows-[auto_300px] lg:gap-x-4">
+            <div data-reveal="up" className="lg:col-span-2 lg:row-start-1 lg:pb-10">
               <p className="eyebrow !text-coral">Our impact</p>
               <h2 id="impact-title" className="mt-4 max-w-[480px] text-[40px] leading-[1.02] sm:text-[52px] lg:text-[56px]">
                 Our growing impact shows how <Mark>consistent</Mark> care
@@ -224,6 +226,7 @@ export function Impact() {
             {impact.map((s, i) => (
               <div
                 key={s.label}
+                data-reveal="rise"
                 className={`hidden flex-col items-center justify-end rounded-[20px] bg-sage px-5 pb-7 text-center lg:flex ${barHeights[i]} ${
                   i === 2 ? "lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:self-end" : "lg:row-start-2 lg:self-end"
                 }`}
@@ -233,13 +236,13 @@ export function Impact() {
               </div>
             ))}
           </div>
-          <Flower className="absolute left-[53%] top-[150px] hidden size-10 text-sun lg:block" />
+          <Flower data-reveal="pop" className="drift absolute left-[53%] top-[150px] hidden size-10 text-sun lg:block" />
         </Container>
 
         {/* Smaller screens: the same bars as a swipeable row, still rising in height */}
         <Slider label="Our impact in numbers" controlsTone="white" className="mt-10 pb-14 lg:hidden">
           {impact.map((s, i) => (
-            <li key={s.label} className="flex w-[min(72vw,280px)] shrink-0 snap-start items-end">
+            <li key={s.label} data-reveal="rise" className="flex w-[min(72vw,280px)] shrink-0 snap-start items-end">
               <div
                 className={`flex w-full flex-col items-center justify-end rounded-[20px] bg-sage px-5 pb-7 text-center ${
                   ["h-[200px]", "h-[240px]", "h-[280px]"][i]
@@ -275,7 +278,7 @@ export function Ways() {
       </Container>
       <Slider label="Ways you can help" className="mt-14">
         {ways.map((w) => (
-          <li key={w.title} className="w-[min(78vw,320px)] shrink-0 snap-start">
+          <li key={w.title} data-reveal="up" className="w-[min(78vw,320px)] shrink-0 snap-start">
             <article className="flex h-full flex-col items-center rounded-[20px] bg-white px-7 pb-11 pt-10 text-center transition-transform duration-500 ease-out-expo hover:-translate-y-1">
               <span className={`grid size-[76px] place-items-center rounded-[20px] text-white ${w.tone}`}>
                 <WayGlyph name={w.icon} size={34} strokeWidth={1.7} />
@@ -295,7 +298,7 @@ export function Ways() {
 export function Campaigns() {
   return (
     <Inset className="pt-24 lg:pt-[120px]">
-      <section id="campaigns" aria-labelledby="campaigns-title" className="rounded-[24px] bg-pale py-16 lg:py-[80px]">
+      <section id="campaigns" aria-labelledby="campaigns-title" data-reveal="scale" className="rounded-[24px] bg-pale py-16 lg:py-[80px]">
         <Container>
           <SectionHeader
             id="campaigns-title"
@@ -311,7 +314,7 @@ export function Campaigns() {
             {campaigns.map((c) => {
               const pct = (c.raised / c.goal) * 100;
               return (
-                <li key={c.title} className="group flex w-[min(80vw,330px)] shrink-0 snap-start flex-col rounded-[18px] bg-white p-2.5">
+                <li key={c.title} data-reveal="up" className="group flex w-[min(80vw,330px)] shrink-0 snap-start flex-col rounded-[18px] bg-white p-2.5">
                   <div className="relative h-[220px] overflow-hidden rounded-[12px]">
                     <Image
                       src={c.image}
@@ -366,14 +369,14 @@ export function Counter() {
           }
           sub="Every gift, shift and shared post adds to one running total of lives changed."
         />
-        <p className="mt-8">
+        <p data-reveal="scale" className="mt-8">
           <CountUp
             value={19412}
             className="font-display text-[104px] font-extrabold leading-[0.9] tracking-[-0.01em] text-forest [font-variation-settings:'opsz'_72] sm:text-[150px] lg:text-[184px]"
           />
         </p>
-        <p className="eyebrow mt-4">Lives changed for the better</p>
-        <PillLink href="#donate" tone="ink" className="mt-7">
+        <p data-reveal="up" className="eyebrow mt-4">Lives changed for the better</p>
+        <PillLink href="#donate" tone="ink" className="mt-7" reveal="up">
           Join them
         </PillLink>
       </Container>
@@ -425,7 +428,7 @@ export function Testimonials() {
           sub="Volunteers, parents and donors on what showing up every month looks like."
         />
       </Container>
-      <div className="group mt-12 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_4%,black_96%,transparent)] motion-reduce:overflow-x-auto">
+      <div data-reveal="fade" className="group mt-12 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_4%,black_96%,transparent)] motion-reduce:overflow-x-auto">
         <ul className="flex w-max animate-marquee gap-6 pr-6group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none">
           {[...testimonials, ...testimonials].map((t, i) => (
             <li key={`${t.name}-${i}`} aria-hidden={i >= testimonials.length ? true : undefined}>
@@ -448,7 +451,7 @@ export function Consistency() {
   return (
     <section aria-labelledby="consistency-title" className="pt-24 lg:pt-[120px]">
       <Container className="grid items-center gap-12 md:grid-cols-[minmax(0,460px)_1fr] lg:gap-20">
-        <div className="relative aspect-[460/480] w-full overflow-hidden rounded-[22px]">
+        <div data-reveal="clip-left" className="relative aspect-[460/480] w-full overflow-hidden rounded-[22px]">
           <Image
             src={asset("/images/consistency.jpg")}
             alt="Two smiling boys leaning out of the wooden window frame of their home"
@@ -457,17 +460,17 @@ export function Consistency() {
             className="object-cover"
           />
         </div>
-        <div className="max-w-[440px]">
-          <p className="eyebrow">Why it works</p>
-          <h2 id="consistency-title" className="mt-4 text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
+        <div data-stagger="110" className="max-w-[440px]">
+          <p data-reveal="up" className="eyebrow">Why it works</p>
+          <h2 id="consistency-title" data-reveal="up" className="mt-4 text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
             Consistency drives real <Mark>change</Mark>.
           </h2>
-          <p className="mt-5 text-[15px] leading-[1.6] text-muted">
+          <p data-reveal="up" className="mt-5 text-[15px] leading-[1.6] text-muted">
             Trust is built by turning up. When families know help will arrive, they can plan school, work and the future.
           </p>
           <ul className="mt-7 space-y-5">
             {features.map(({ icon: Icon, title, text }) => (
-              <li key={title} className="flex items-start gap-4">
+              <li key={title} data-reveal="right" className="flex items-start gap-4">
                 <span className="grid size-9 shrink-0 place-items-center rounded-full bg-coral text-white">
                   <Icon size={18} strokeWidth={2} />
                 </span>
@@ -503,7 +506,7 @@ export function Stories() {
       </Container>
       <Slider label="Community stories" className="mt-12">
           {stories.map((s) => (
-            <li key={s.title} className="group flex w-[min(80vw,330px)] shrink-0 snap-start flex-col rounded-[18px] bg-white p-2.5">
+            <li key={s.title} data-reveal="up" className="group flex w-[min(80vw,330px)] shrink-0 snap-start flex-col rounded-[18px] bg-white p-2.5">
               <div className="relative h-[220px] overflow-hidden rounded-[12px]">
                 <Image
                   src={s.image}
@@ -537,20 +540,22 @@ export function FaqSection() {
   return (
     <section id="faq" aria-labelledby="faq-title" className="pt-24 lg:pt-[120px]">
       <Container className="grid gap-10 md:grid-cols-[minmax(0,380px)_1fr] lg:gap-24">
-        <div>
-          <h2 id="faq-title" className="text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
+        <div data-stagger="110">
+          <h2 id="faq-title" data-reveal="up" className="text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
             Questions
             <br /> and answers
           </h2>
-          <p className="mt-5 max-w-[340px] text-[15px] leading-[1.6] text-muted">
+          <p data-reveal="up" className="mt-5 max-w-[340px] text-[15px] leading-[1.6] text-muted">
             Quick answers about giving, volunteering and where the money goes.
           </p>
-          <a href={`mailto:${site.email}`} className={pillClass("ink", "mt-8")}>
+          <a href={`mailto:${site.email}`} data-reveal="up" className={pillClass("ink", "mt-8")}>
             Contact us
             <Arrow />
           </a>
         </div>
-        <Faq />
+        <div data-stagger="90">
+          <Faq />
+        </div>
       </Container>
     </section>
   );
@@ -561,17 +566,17 @@ export function FaqSection() {
 export function Cta() {
   return (
     <Inset className="pt-24 lg:pt-[120px]">
-      <section aria-labelledby="cta-title" className="relative overflow-hidden rounded-[24px] bg-white px-6 py-16 text-center lg:py-[84px]">
-        <span aria-hidden="true" className="absolute left-[21%] top-[44%] hidden size-8 rounded-full bg-coral md:block" />
-        <Flower className="absolute left-[73%] top-[66%] hidden size-8 text-forest md:block" />
-        <h2 id="cta-title" className="mx-auto max-w-[760px] text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
+      <section aria-labelledby="cta-title" data-stagger="120" className="relative overflow-hidden rounded-[24px] bg-white px-6 py-16 text-center lg:py-[84px]">
+        <span aria-hidden="true" data-reveal="pop" className="drift absolute left-[21%] top-[44%] hidden size-8 rounded-full bg-coral md:block" />
+        <Flower data-reveal="pop" className="drift absolute left-[73%] top-[66%] hidden size-8 text-forest md:block" />
+        <h2 id="cta-title" data-reveal="up" className="mx-auto max-w-[760px] text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
           Want to make a difference <br className="hidden md:block" />
           in your <Mark>community</Mark>?
         </h2>
-        <p className="mx-auto mt-4 max-w-[420px] text-[15px] leading-[1.6] text-muted">
+        <p data-reveal="up" className="mx-auto mt-4 max-w-[420px] text-[15px] leading-[1.6] text-muted">
           Start with one gift or one afternoon. We will show you exactly where it goes.
         </p>
-        <PillLink href="#donate" className="mt-8 min-w-[200px]">
+        <PillLink href="#donate" className="mt-8 min-w-[200px]" reveal="up">
           Get involved
         </PillLink>
       </section>
@@ -593,8 +598,8 @@ export function Footer() {
     <Inset className="pb-2 pt-6 sm:pb-4 lg:pb-6">
       <footer className="rounded-[24px] bg-forest text-white">
         <Container className="pb-10 pt-14 lg:pt-[64px]">
-          <div className="grid gap-12 lg:grid-cols-[1fr_392px] lg:gap-16">
-            <div>
+          <div data-stagger="150" className="grid gap-12 lg:grid-cols-[1fr_392px] lg:gap-16">
+            <div data-reveal="up">
               <nav aria-label="Footer" className="grid max-w-[480px] grid-cols-2 gap-8 sm:grid-cols-3">
                 {footerLinks.map((col) => (
                   <div key={col.heading}>
@@ -629,7 +634,7 @@ export function Footer() {
               </ul>
             </div>
 
-            <div className="rounded-[20px] bg-ink px-8 py-9 text-center">
+            <div data-reveal="right" className="rounded-[20px] bg-ink px-8 py-9 text-center">
               <p className="font-display text-[36px] font-extrabold uppercase leading-[1.02] [font-variation-settings:'opsz'_72]">
                 Make a donation
                 <br /> make a change!
@@ -643,7 +648,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="mt-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div data-reveal="up" className="mt-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <a href="#top" aria-label={`${site.name}, back to top`} className="flex items-center gap-3 text-sun">
               <LogoMark size={76} className="text-white" />
               <span className="font-display text-[72px] font-extrabold uppercase leading-[0.8] [font-variation-settings:'opsz'_72] sm:text-[96px]">

@@ -35,14 +35,17 @@ export function PillLink({
   children,
   tone = "coral",
   className = "",
+  reveal,
 }: {
   href: string;
   children: ReactNode;
   tone?: Tone;
   className?: string;
+  /** Scroll-reveal style (see globals.css), e.g. "up". */
+  reveal?: string;
 }) {
   return (
-    <a href={href} className={pillClass(tone, className)}>
+    <a href={href} className={pillClass(tone, className)} data-reveal={reveal}>
       {children}
       <Arrow />
     </a>
@@ -76,11 +79,11 @@ export function SectionHeader({
   className?: string;
 }) {
   return (
-    <header className={`mx-auto max-w-[620px] text-center ${className}`}>
-      <h2 id={id} className="text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
+    <header data-stagger="120" className={`mx-auto max-w-[620px] text-center ${className}`}>
+      <h2 id={id} data-reveal="up" className="text-[40px] leading-[1.02] text-ink sm:text-[52px] lg:text-[56px]">
         {title}
       </h2>
-      <p className="mx-auto mt-4 max-w-[460px] text-[15px] leading-[1.6] text-muted">{sub}</p>
+      <p data-reveal="up" className="mx-auto mt-4 max-w-[460px] text-[15px] leading-[1.6] text-muted">{sub}</p>
     </header>
   );
 }
@@ -105,7 +108,7 @@ export function Progress({ value, label }: { value: number; label: string }) {
       aria-label={label}
       className="h-1.5 w-full overflow-hidden rounded-full bg-cream-deep"
     >
-      <div className="h-full rounded-full bg-ink" style={{ width: `${pct}%` }} />
+      <div className="progress-fill h-full rounded-full bg-ink" style={{ width: `${pct}%` }} />
     </div>
   );
 }
