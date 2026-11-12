@@ -11,7 +11,7 @@ import {
   footerLinks,
 } from "@/lib/site";
 import { Container, Mark, PillLink, SectionHeader, TextLink, Progress, pillClass, Arrow } from "./ui";
-import { AnnouncementBar, SiteNav, DonateForm, CountUp, Faq } from "./client";
+import { AnnouncementBar, SiteHeader, DonateForm, CountUp, Faq, Slider } from "./client";
 import { ProgramGlyph, WayGlyph, Sprout, Loop, LogoMark, Facebook, XLogo, Instagram, LinkedIn } from "./icons";
 import { Flower, Scribble, ArrowDoodle, Blob } from "./decor";
 
@@ -26,8 +26,9 @@ function Inset({ children, className = "" }: { children: React.ReactNode; classN
 
 export function Hero() {
   return (
-    <header id="top">
+    <div id="top">
       <AnnouncementBar />
+      <SiteHeader />
       <Inset>
         <section aria-labelledby="hero-title" className="relative isolate overflow-hidden rounded-t-[24px] bg-ink text-white">
           <Image
@@ -48,9 +49,9 @@ export function Hero() {
             aria-hidden="true"
             className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(12,24,17,0)_30%,rgba(12,24,17,0.7)_78%)] md:hidden"
           />
-          <Container className="flex min-h-[640px] flex-col pb-20 pt-6 sm:min-h-[760px] sm:pt-7 lg:min-h-[820px] lg:pb-[150px]">
-            <SiteNav />
-            <div className="mt-auto max-w-[520px] pt-24">
+          {/* Top padding leaves room for the fixed header that floats over the hero */}
+          <Container className="flex min-h-[640px] flex-col pb-20 pt-28 sm:min-h-[760px] lg:min-h-[820px] lg:pb-[150px]">
+            <div className="mt-auto max-w-[520px] pt-10">
               <h1 id="hero-title" className="text-[56px] leading-[0.95] tracking-[-0.005em] sm:text-[76px] lg:text-[88px]">
                 Building <Mark>brighter</Mark>,<br />
                 safe future.
@@ -98,7 +99,7 @@ export function Hero() {
           </section>
         </div>
       </Inset>
-    </header>
+    </div>
   );
 }
 
@@ -159,9 +160,11 @@ export function Programs() {
           }
           sub="Four programs, one promise: show up for the same communities until they no longer need us."
         />
-        <ul className="mt-14 grid gap-6 md:grid-cols-2 lg:gap-8">
-          {programs.map((p) => (
-            <li key={p.title} className="group rounded-[20px] bg-white p-3.5 sm:p-4">
+      </Container>
+      <Slider label="Our programs" className="mt-14">
+        {programs.map((p) => (
+          <li key={p.title} className="group w-[min(86vw,480px)] shrink-0 snap-start">
+            <article className="h-full rounded-[20px] bg-white p-3.5 sm:p-4">
               <div className="relative aspect-[16/9] overflow-hidden rounded-[12px] sm:aspect-auto sm:h-[245px]">
                 <Image
                   src={p.image}
@@ -187,10 +190,10 @@ export function Programs() {
                   </div>
                 </dl>
               </div>
-            </li>
-          ))}
-        </ul>
-      </Container>
+            </article>
+          </li>
+        ))}
+      </Slider>
     </section>
   );
 }
@@ -204,9 +207,9 @@ export function Impact() {
     <Inset className="pt-24 lg:pt-[120px]">
       <section aria-labelledby="impact-title" className="relative isolate overflow-hidden rounded-[24px] bg-ink text-white">
         <Scribble className="pointer-events-none absolute -right-10 -top-24 -z-10 hidden w-[760px] text-[#1f4030] md:block" />
-        <Container className="relative py-16 lg:pb-[58px] lg:pt-[72px]">
-          <div className="grid gap-4 sm:grid-cols-3 lg:grid-rows-[auto_300px] lg:gap-x-4 lg:gap-y-0">
-            <div className="sm:col-span-3 lg:col-span-2 lg:row-start-1 lg:pb-10">
+        <Container className="relative pt-16 lg:pb-[58px] lg:pt-[72px]">
+          <div className="lg:grid lg:grid-cols-3 lg:grid-rows-[auto_300px] lg:gap-x-4">
+            <div className="lg:col-span-2 lg:row-start-1 lg:pb-10">
               <p className="eyebrow !text-coral">Our impact</p>
               <h2 id="impact-title" className="mt-4 max-w-[480px] text-[40px] leading-[1.02] sm:text-[52px] lg:text-[56px]">
                 Our growing impact shows how <Mark>consistent</Mark> care
@@ -217,20 +220,37 @@ export function Impact() {
               <ArrowDoodle className="mt-6 hidden w-12 rotate-[8deg] text-[#3d6b52] lg:block" />
             </div>
 
+            {/* Desktop: three bars rising like a chart */}
             {impact.map((s, i) => (
               <div
                 key={s.label}
-                className={`flex h-[180px] flex-col items-center justify-end rounded-[20px] bg-sage px-5 pb-7 text-center sm:h-[220px] ${barHeights[i]} ${
+                className={`hidden flex-col items-center justify-end rounded-[20px] bg-sage px-5 pb-7 text-center lg:flex ${barHeights[i]} ${
                   i === 2 ? "lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:self-end" : "lg:row-start-2 lg:self-end"
                 }`}
               >
-                <CountUp value={s.value} className="font-display text-[44px] font-extrabold leading-none text-white [font-variation-settings:'opsz'_72] lg:text-[48px]" />
+                <CountUp value={s.value} className="font-display text-[48px] font-extrabold leading-none text-white [font-variation-settings:'opsz'_72]" />
                 <p className="mt-3 max-w-[180px] text-[13px] leading-[1.45] text-white/90">{s.label}</p>
               </div>
             ))}
           </div>
           <Flower className="absolute left-[53%] top-[150px] hidden size-10 text-sun lg:block" />
         </Container>
+
+        {/* Smaller screens: the same bars as a swipeable row, still rising in height */}
+        <Slider label="Our impact in numbers" controlsTone="white" className="mt-10 pb-14 lg:hidden">
+          {impact.map((s, i) => (
+            <li key={s.label} className="flex w-[min(72vw,280px)] shrink-0 snap-start items-end">
+              <div
+                className={`flex w-full flex-col items-center justify-end rounded-[20px] bg-sage px-5 pb-7 text-center ${
+                  ["h-[200px]", "h-[240px]", "h-[280px]"][i]
+                }`}
+              >
+                <CountUp value={s.value} className="font-display text-[44px] font-extrabold leading-none text-white [font-variation-settings:'opsz'_72]" />
+                <p className="mt-3 max-w-[180px] text-[13px] leading-[1.45] text-white/90">{s.label}</p>
+              </div>
+            </li>
+          ))}
+        </Slider>
       </section>
     </Inset>
   );
@@ -252,21 +272,20 @@ export function Ways() {
           }
           sub="Give money, time or your voice. Every kind of help keeps a program running."
         />
-        <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {ways.map((w) => (
-            <li
-              key={w.title}
-              className="flex flex-col items-center rounded-[20px] bg-white px-7 pb-11 pt-10 text-center transition-transform duration-500 ease-out-expo hover:-translate-y-1"
-            >
+      </Container>
+      <Slider label="Ways you can help" className="mt-14">
+        {ways.map((w) => (
+          <li key={w.title} className="w-[min(78vw,320px)] shrink-0 snap-start">
+            <article className="flex h-full flex-col items-center rounded-[20px] bg-white px-7 pb-11 pt-10 text-center transition-transform duration-500 ease-out-expo hover:-translate-y-1">
               <span className={`grid size-[76px] place-items-center rounded-[20px] text-white ${w.tone}`}>
                 <WayGlyph name={w.icon} size={34} strokeWidth={1.7} />
               </span>
               <h3 className="mt-6 text-[20px] leading-none text-ink">{w.title}</h3>
               <p className="mt-3 max-w-[250px] text-[13px] leading-[1.6] text-muted">{w.text}</p>
-            </li>
-          ))}
-        </ul>
-      </Container>
+            </article>
+          </li>
+        ))}
+      </Slider>
     </section>
   );
 }
@@ -287,11 +306,12 @@ export function Campaigns() {
             }
             sub="Live campaigns with a clear goal and a deadline. Pick one and watch it fill up."
           />
-          <ul className="mt-12 grid gap-6 md:grid-cols-3">
+        </Container>
+        <Slider label="Live campaigns" className="mt-12">
             {campaigns.map((c) => {
               const pct = (c.raised / c.goal) * 100;
               return (
-                <li key={c.title} className="group flex flex-col rounded-[18px] bg-white p-2.5">
+                <li key={c.title} className="group flex w-[min(80vw,330px)] shrink-0 snap-start flex-col rounded-[18px] bg-white p-2.5">
                   <div className="relative h-[220px] overflow-hidden rounded-[12px]">
                     <Image
                       src={c.image}
@@ -324,8 +344,7 @@ export function Campaigns() {
                 </li>
               );
             })}
-          </ul>
-        </Container>
+        </Slider>
       </section>
     </Inset>
   );
@@ -481,9 +500,10 @@ export function Stories() {
           }
           sub="Field notes from the people and places your support reaches."
         />
-        <ul className="mt-12 grid gap-6 md:grid-cols-3">
+      </Container>
+      <Slider label="Community stories" className="mt-12">
           {stories.map((s) => (
-            <li key={s.title} className="group flex flex-col rounded-[18px] bg-white p-2.5">
+            <li key={s.title} className="group flex w-[min(80vw,330px)] shrink-0 snap-start flex-col rounded-[18px] bg-white p-2.5">
               <div className="relative h-[220px] overflow-hidden rounded-[12px]">
                 <Image
                   src={s.image}
@@ -506,8 +526,7 @@ export function Stories() {
               </div>
             </li>
           ))}
-        </ul>
-      </Container>
+      </Slider>
     </section>
   );
 }

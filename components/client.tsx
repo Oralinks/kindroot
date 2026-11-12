@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { Close, Menu, Plus, Minus, Check, LogoMark } from "./icons";
+import { Close, Menu, Plus, Minus, Check, LogoMark, ArrowRight } from "./icons";
 import { Arrow, pillClass } from "./ui";
 import { nav, site, faqs } from "@/lib/site";
 
@@ -9,9 +9,16 @@ import { nav, site, faqs } from "@/lib/site";
 
 export function AnnouncementBar() {
   const [open, setOpen] = useState(true);
+  useEffect(() => {
+    // Tell the fixed header the bar's height changed.
+    if (!open) window.dispatchEvent(new Event("announcement-change"));
+  }, [open]);
   if (!open) return null;
   return (
-    <div className="relative flex min-h-9 items-center justify-center px-12 py-2 text-center text-[12px] leading-snug text-ink">
+    <div
+      id="announcement"
+      className="relative flex min-h-9 items-center justify-center px-12 py-2 text-center text-[12px] leading-snug text-ink"
+    >
       <p>
         This is a concept charity site built for a design portfolio.{" "}
         <a href="#faq" className="font-semibold text-coral-ink underline decoration-1 hover:text-coral-deep">
@@ -26,6 +33,150 @@ export function AnnouncementBar() {
       >
         <Close size={14} />
       </button>
+    </div>
+  );
+}
+
+/* ---------------- Fixed header ---------------- */
+
+/**
+ * Fixed to the viewport. Over the hero it is transparent and sits just under
+ * the announcement bar; once the page scrolls it becomes a solid ink bar.
+ */
+export function SiteHeader() {
+  const [top, setTop] = useState(36);
+  const [solid, setSolid] = useState(false);
+
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const bar = document.getElementById("announcement");
+      const barH = bar ? bar.offsetHeight : 0;
+      const y = window.scrollY;
+      const isSolid = y > 24;
+      setSolid(isSolid);
+      setTop(Math.max(isSolid ? 8 : 0, barH - y));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    window.addEventListener("announcement-change", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("announcement-change", onScroll);
+    };
+  }, []);
+
+  return (
+    <header className="fixed inset-x-0 z-50 px-2 sm:px-4 lg:px-6" style={{ top }}>
+      <div
+        className={`rounded-[20px] transition-[background-color,box-shadow,padding] duration-500 ease-out-expo ${
+          solid
+            ? "bg-ink/92 py-3 shadow-[0_12px_32px_-14px_rgba(19,42,32,0.55)] backdrop-blur-md"
+            : "bg-transparent py-6 sm:py-7"
+        }`}
+      >
+        <div className="mx-auto w-full max-w-[1104px] px-5 sm:px-8">
+          <SiteNav />
+        </div>
+      </div>
+    </header>
+  );
+}
+
+/* ---------------- Horizontal slider ---------------- */
+
+/**
+ * Scroll-snap carousel. Swipe or trackpad-scroll on any device; arrow
+ * buttons page by one card. The track bleeds to the edge of its parent
+ * while the first card lines up with the page content column.
+ */
+export function Slider({
+  label,
+  children,
+  className = "",
+  controlsTone = "ink",
+}: {
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+  controlsTone?: "ink" | "white";
+}) {
+  const trackRef = useRef<HTMLUListElement>(null);
+  const trackId = useId();
+  const [state, setState] = useState({ start: true, end: false, scrollable: false });
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const measure = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setState({ start: el.scrollLeft <= 2, end: el.scrollLeft >= max - 2, scrollable: max > 2 });
+    };
+    measure();
+    el.addEventListener("scroll", measure, { passive: true });
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", measure);
+      ro.disconnect();
+    };
+  }, []);
+
+  const page = (dir: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const first = el.querySelector<HTMLElement>(":scope > li");
+    const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+    const step = first ? first.offsetWidth + gap : el.clientWidth * 0.8;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollBy({ left: dir * step, behavior: reduce ? "auto" : "smooth" });
+  };
+
+  const btn =
+    controlsTone === "white"
+      ? "bg-white text-ink hover:bg-ink hover:text-white"
+      : "bg-ink text-white hover:bg-forest";
+
+  return (
+    <div role="region" aria-roledescription="carousel" aria-label={label} className={className}>
+      <ul
+        ref={trackRef}
+        id={trackId}
+        tabIndex={0}
+        aria-label={`${label}, scroll horizontally`}
+        className="slider-track flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-2 focus-visible:outline-offset-[-2px] sm:gap-6"
+      >
+        {children}
+      </ul>
+      <div className={`mt-8 flex justify-center gap-3 ${state.scrollable ? "" : "invisible"}`}>
+        <button
+          type="button"
+          aria-controls={trackId}
+          aria-label="Previous"
+          disabled={state.start}
+          onClick={() => page(-1)}
+          className={`grid size-11 place-items-center rounded-full transition-[background-color,color,opacity] duration-300 disabled:cursor-not-allowed disabled:opacity-35 ${btn}`}
+        >
+          <ArrowRight size={18} strokeWidth={2.2} className="rotate-180" />
+        </button>
+        <button
+          type="button"
+          aria-controls={trackId}
+          aria-label="Next"
+          disabled={state.end}
+          onClick={() => page(1)}
+          className={`grid size-11 place-items-center rounded-full transition-[background-color,color,opacity] duration-300 disabled:cursor-not-allowed disabled:opacity-35 ${btn}`}
+        >
+          <ArrowRight size={18} strokeWidth={2.2} />
+        </button>
+      </div>
     </div>
   );
 }

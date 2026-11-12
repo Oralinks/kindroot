@@ -42,7 +42,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 24px;
+    /* Room for the fixed header when jumping to #anchors */
+    scroll-padding-top: 96px;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -128,6 +129,19 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-coral-ink);
+  }
+
+  /* Horizontal slider track: first card aligns with the 1040px content
+     column, the track itself bleeds to the edges of its parent. */
+  .slider-track {
+    --edge: max(1.25rem, calc((100% - 1040px) / 2));
+    padding-inline: var(--edge);
+    scroll-padding-inline: var(--edge);
+    scrollbar-width: none;
+  }
+  .slider-track::-webkit-scrollbar { display: none; }
+  @media (min-width: 640px) {
+    .slider-track { --edge: max(2rem, calc((100% - 1040px) / 2)); }
   }
 
   .num {

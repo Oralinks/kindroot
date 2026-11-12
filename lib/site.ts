@@ -133,6 +133,14 @@ export const campaigns = [
     raised: 5150,
     goal: 8000,
   },
+  {
+    title: "Emergency food aid for families in South Africa",
+    text: "Grocery parcels for households hit by drought.",
+    image: asset("/images/food-aid.jpg"),
+    alt: "A woven bag packed with rice, vegetables, fruit and bread",
+    raised: 24860,
+    goal: 40000,
+  },
 ];
 
 export const testimonials = [
@@ -195,6 +203,13 @@ export const stories = [
     title: "Planting one seedling for every new pupil",
     image: asset("/images/story-3.jpg"),
     alt: "A smiling girl holding a small green seedling outdoors",
+  },
+  {
+    category: "Education",
+    date: "Aug 27, 2026",
+    title: "Inside a classroom that never closes",
+    image: asset("/images/about.jpg"),
+    alt: "A boy in a red school sweater writing in his exercise book at a wooden desk",
   },
 ];
 
