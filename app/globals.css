@@ -1,26 +1,145 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Palette — sampled from the reference design */
+  --color-cream: #eaebdd;
+  --color-cream-deep: #dfe1cf;
+  --color-ink: #132a20;
+  --color-forest: #2b614a;
+  --color-forest-deep: #1d4434;
+  --color-sage: #8aa66c;
+  --color-pale: #c7ddae;
+  --color-sun: #fedb22;
+  --color-coral: #ee5f38;
+  --color-coral-deep: #d94c26;
+  /* Coral for small text on light surfaces (keeps AA contrast) */
+  --color-coral-ink: #b8401c;
+  --color-muted: #5c6660;
+  --color-line: #d7dacb;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Icon tiles, "Ways you can help" */
+  --color-plum: #5a3a4a;
+  --color-steel: #3e5f7a;
+  --color-cocoa: #6b4a33;
+  --color-indigo: #4a3c6e;
+  --color-olive: #5e6b3a;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-display: var(--font-big-shoulders), "Arial Narrow", sans-serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 16px;
+  --radius-section: 24px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee 60s linear infinite;
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 24px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    caret-color: var(--color-coral);
+    accent-color: var(--color-forest);
+  }
+
+  ::selection {
+    background: var(--color-sun);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-coral);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Scrollbar themed from the palette */
+  html {
+    scrollbar-color: var(--color-forest) var(--color-cream-deep);
+    scrollbar-width: thin;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-cream-deep); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-forest);
+    border-radius: 999px;
+    border: 2px solid var(--color-cream-deep);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    text-wrap: balance;
+    font-variation-settings: "opsz" 72;
+  }
+
+  a { text-underline-offset: 3px; }
+
+  p, li, blockquote { text-wrap: pretty; }
+
+  input::placeholder { color: color-mix(in oklab, var(--color-ink) 50%, transparent); }
+}
+
+@layer components {
+  /* Yellow marker that sits under one or two key words of a heading. */
+  .mark {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+  }
+  .mark::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -0.04em;
+    right: -0.06em;
+    bottom: -0.02em;
+    height: 0.11em;
+    min-height: 4px;
+    background: var(--color-sun);
+    border-radius: 0.1em 0.3em 0.15em 0.35em;
+    transform: rotate(-0.6deg);
+    transform-origin: left center;
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-coral-ink);
+  }
+
+  .num {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
