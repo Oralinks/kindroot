@@ -47,6 +47,13 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* Never let anything (an animation start state, a decoration) widen the
+     page sideways: a wider page drags the fixed header past the screen edge. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     background: var(--color-cream);
     color: var(--color-ink);
@@ -162,8 +169,14 @@ html.motion [data-reveal] {
   transition-delay: var(--reveal-delay, 0ms);
 }
 html.motion [data-reveal="up"] { opacity: 0; transform: translate3d(0, 36px, 0); }
-html.motion [data-reveal="left"] { opacity: 0; transform: translate3d(-48px, 0, 0); }
-html.motion [data-reveal="right"] { opacity: 0; transform: translate3d(48px, 0, 0); }
+/* Sideways entrances only where there is room; on phones they rise instead,
+   so nothing starts outside the screen and widens the page. */
+html.motion [data-reveal="left"],
+html.motion [data-reveal="right"] { opacity: 0; transform: translate3d(0, 36px, 0); }
+@media (min-width: 768px) {
+  html.motion [data-reveal="left"] { transform: translate3d(-48px, 0, 0); }
+  html.motion [data-reveal="right"] { transform: translate3d(48px, 0, 0); }
+}
 html.motion [data-reveal="scale"] { opacity: 0; transform: scale(0.94); }
 html.motion [data-reveal="fade"] { opacity: 0; filter: blur(6px); }
 /* Images wipe open from the bottom / from the left */
