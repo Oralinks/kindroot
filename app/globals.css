@@ -151,6 +151,25 @@
     .slider-track { --edge: max(2rem, calc((100% - 1040px) / 2)); }
   }
 
+  /* Hero sizing.
+     Portrait (phones, upright tablets): a tall poster crop of the photo.
+     Landscape at tablet width and up: exactly one screen tall, so a 16:9
+     photo on a 16:9 / 16:10 screen is shown (almost) whole instead of being
+     blown up and cropped. On squarer screens (4:3 tablets) the crop favours
+     the right, where the people are; the left is trees behind the headline. */
+  .hero-frame { min-height: 640px; }
+  .hero-photo { object-position: 62% center; }
+  @media (min-width: 640px) {
+    .hero-frame { min-height: 760px; }
+  }
+  @media (min-width: 768px) and (orientation: landscape) {
+    .hero-frame {
+      min-height: max(540px, 100vh);
+      min-height: max(540px, 100svh);
+    }
+    .hero-photo { object-position: 85% center; }
+  }
+
   .num {
     font-variant-numeric: tabular-nums lining-nums;
   }

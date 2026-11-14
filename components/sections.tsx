@@ -36,7 +36,7 @@ export function Hero() {
           fill
           preload
           sizes="100vw"
-          className="hero-zoom -z-20 object-cover object-[62%_center]"
+          className="hero-photo hero-zoom -z-20 object-cover"
         />
         {/* Contrast scrims: left for the headline, top for the nav */}
         <div
@@ -49,7 +49,8 @@ export function Hero() {
           className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(12,24,17,0)_30%,rgba(12,24,17,0.7)_78%)] md:hidden"
         />
         {/* Top padding leaves room for the fixed header that floats over the hero */}
-        <Container className="flex min-h-[640px] flex-col pb-20 pt-28 sm:min-h-[760px] lg:min-h-[820px] lg:pb-[150px]">
+        {/* Height rules live in .hero-frame (globals.css): one full screen on desktop / landscape tablets */}
+        <Container className="hero-frame flex flex-col pb-20 pt-28 lg:pb-[120px]">
           <div data-stagger="130" className="mt-auto max-w-[520px] pt-10">
             <h1 id="hero-title" data-reveal="up" className="text-[56px] leading-[0.95] tracking-[-0.005em] sm:text-[76px] lg:text-[88px]">
               Building <Mark>brighter</Mark>,<br />
