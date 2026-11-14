@@ -5,76 +5,38 @@ import { Close, Menu, Plus, Minus, Check, LogoMark, ArrowRight } from "./icons";
 import { Arrow, pillClass } from "./ui";
 import { nav, site, faqs } from "@/lib/site";
 
-/* ---------------- Announcement bar ---------------- */
-
-export function AnnouncementBar() {
-  const [open, setOpen] = useState(true);
-  useEffect(() => {
-    // Tell the fixed header the bar's height changed.
-    if (!open) window.dispatchEvent(new Event("announcement-change"));
-  }, [open]);
-  if (!open) return null;
-  return (
-    <div
-      id="announcement"
-      className="relative flex min-h-9 items-center justify-center px-12 py-2 text-center text-[12px] leading-snug text-ink"
-    >
-      <p>
-        This is a concept charity site built for a design portfolio.{" "}
-        <a href="#faq" className="font-semibold text-coral-ink underline decoration-1 hover:text-coral-deep">
-          Read the FAQ
-        </a>
-      </p>
-      <button
-        type="button"
-        onClick={() => setOpen(false)}
-        aria-label="Dismiss announcement"
-        className="absolute right-3 top-1/2 grid size-7 -translate-y-1/2 place-items-center rounded-full text-ink/70 transition-colors hover:bg-ink/5 hover:text-ink"
-      >
-        <Close size={14} />
-      </button>
-    </div>
-  );
-}
-
 /* ---------------- Fixed header ---------------- */
 
 /**
- * Fixed to the viewport. Over the hero it is transparent and sits just under
- * the announcement bar; once the page scrolls it becomes a solid ink bar.
+ * Fixed to the viewport. Over the hero it is transparent; once the page
+ * scrolls it becomes a floating solid ink bar.
  */
 export function SiteHeader() {
-  const [top, setTop] = useState(36);
   const [solid, setSolid] = useState(false);
 
   useEffect(() => {
     let raf = 0;
     const update = () => {
       raf = 0;
-      const bar = document.getElementById("announcement");
-      const barH = bar ? bar.offsetHeight : 0;
-      const y = window.scrollY;
-      const isSolid = y > 24;
-      setSolid(isSolid);
-      setTop(Math.max(isSolid ? 8 : 0, barH - y));
+      setSolid(window.scrollY > 24);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    window.addEventListener("announcement-change", onScroll);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      window.removeEventListener("announcement-change", onScroll);
     };
   }, []);
 
   return (
-    <header className="fixed inset-x-0 z-50 px-2 sm:px-4 lg:px-6" style={{ top }}>
+    <header
+      className={`fixed inset-x-0 z-50 transition-[top,padding] duration-500 ease-out-expo ${
+        solid ? "top-2 px-2 sm:px-4 lg:px-6" : "top-0 px-0"
+      }`}
+    >
       <div
         className={`rounded-[20px] transition-[background-color,box-shadow,padding] duration-500 ease-out-expo ${
           solid

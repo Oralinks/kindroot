@@ -11,7 +11,7 @@ import {
   footerLinks,
 } from "@/lib/site";
 import { Container, Mark, PillLink, SectionHeader, TextLink, Progress, pillClass, Arrow } from "./ui";
-import { AnnouncementBar, SiteHeader, DonateForm, CountUp, Faq, Slider } from "./client";
+import { SiteHeader, DonateForm, CountUp, Faq, Slider } from "./client";
 import { ProgramGlyph, WayGlyph, Sprout, Loop, LogoMark, Facebook, XLogo, Instagram, LinkedIn } from "./icons";
 import { Flower, Scribble, ArrowDoodle, Blob } from "./decor";
 
@@ -27,80 +27,78 @@ function Inset({ children, className = "" }: { children: React.ReactNode; classN
 export function Hero() {
   return (
     <div id="top">
-      <AnnouncementBar />
       <SiteHeader />
-      <Inset>
-        <section aria-labelledby="hero-title" className="relative isolate overflow-hidden rounded-t-[24px] bg-ink text-white">
-          <Image
-            src={asset("/images/hero.jpg")}
-            alt="A volunteer handing baskets of fresh vegetables to a smiling mother and her two daughters outside their home"
-            fill
-            preload
-            sizes="100vw"
-            className="hero-zoom -z-20 object-cover object-[62%_center]"
-          />
-          {/* Contrast scrims: left for the headline, top for the nav */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(12,24,17,0.82)_0%,rgba(12,24,17,0.6)_32%,rgba(12,24,17,0.12)_62%,rgba(12,24,17,0)_80%),linear-gradient(180deg,rgba(12,24,17,0.45)_0%,rgba(12,24,17,0)_22%)]"
-          />
-          {/* On narrow screens the text sits over the people, so darken from below too */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(12,24,17,0)_30%,rgba(12,24,17,0.7)_78%)] md:hidden"
-          />
-          {/* Top padding leaves room for the fixed header that floats over the hero */}
-          <Container className="flex min-h-[640px] flex-col pb-20 pt-28 sm:min-h-[760px] lg:min-h-[820px] lg:pb-[150px]">
-            <div data-stagger="130" className="mt-auto max-w-[520px] pt-10">
-              <h1 id="hero-title" data-reveal="up" className="text-[56px] leading-[0.95] tracking-[-0.005em] sm:text-[76px] lg:text-[88px]">
-                Building <Mark>brighter</Mark>,<br />
-                safe future.
-              </h1>
-              <p data-reveal="up" className="mt-6 max-w-[400px] text-[15px] leading-[1.6] text-white/85">
-                We bring food, care and learning to families who need it most, and we keep coming back until life feels steady again.
+      {/* Full-bleed: hero and promo panels run edge to edge */}
+      <section aria-labelledby="hero-title" className="relative isolate overflow-hidden bg-ink text-white">
+        <Image
+          src={asset("/images/hero.jpg")}
+          alt="A volunteer handing baskets of fresh vegetables to a smiling mother and her two daughters outside their home"
+          fill
+          preload
+          sizes="100vw"
+          className="hero-zoom -z-20 object-cover object-[62%_center]"
+        />
+        {/* Contrast scrims: left for the headline, top for the nav */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(12,24,17,0.82)_0%,rgba(12,24,17,0.6)_32%,rgba(12,24,17,0.12)_62%,rgba(12,24,17,0)_80%),linear-gradient(180deg,rgba(12,24,17,0.45)_0%,rgba(12,24,17,0)_22%)]"
+        />
+        {/* On narrow screens the text sits over the people, so darken from below too */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(12,24,17,0)_30%,rgba(12,24,17,0.7)_78%)] md:hidden"
+        />
+        {/* Top padding leaves room for the fixed header that floats over the hero */}
+        <Container className="flex min-h-[640px] flex-col pb-20 pt-28 sm:min-h-[760px] lg:min-h-[820px] lg:pb-[150px]">
+          <div data-stagger="130" className="mt-auto max-w-[520px] pt-10">
+            <h1 id="hero-title" data-reveal="up" className="text-[56px] leading-[0.95] tracking-[-0.005em] sm:text-[76px] lg:text-[88px]">
+              Building <Mark>brighter</Mark>,<br />
+              safe future.
+            </h1>
+            <p data-reveal="up" className="mt-6 max-w-[400px] text-[15px] leading-[1.6] text-white/85">
+              We bring food, care and learning to families who need it most, and we keep coming back until life feels steady again.
+            </p>
+            <PillLink href="#donate" className="mt-8" reveal="up">
+              Donate now
+            </PillLink>
+          </div>
+        </Container>
+        <Flower data-reveal="pop" className="drift absolute bottom-[14%] left-[72%] hidden size-9 text-sun md:block" />
+      </section>
+
+      <div data-stagger="160" className="grid overflow-hidden md:grid-cols-2">
+        {/* Yellow campaign panel */}
+        <section aria-labelledby="promo-title" className="flex items-center justify-center bg-sun px-6 py-10 md:min-h-[304px] md:px-10">
+          <div data-reveal="up" className="flex w-full max-w-[460px] items-center gap-6">
+            <div className="relative size-[120px] shrink-0 overflow-hidden rounded-[14px] sm:size-[164px]">
+              <Image src={asset("/images/food-aid.jpg")} alt="A woven bag packed with rice, vegetables, fruit and bread" fill sizes="164px" className="object-cover" />
+            </div>
+            <div className="min-w-0">
+              <h2 id="promo-title" className="text-[24px] leading-[1.02] text-ink sm:text-[28px]">
+                Emergency food aid in South Africa
+              </h2>
+              <p className="num mt-3 text-[12px] leading-[1.5] text-ink/80">
+                <span className="font-semibold text-ink">Raised: $24,860</span>
+                <span className="mx-2 text-ink/40">/</span>
+                Goal: $40,000
               </p>
-              <PillLink href="#donate" className="mt-8" reveal="up">
-                Donate now
+              <PillLink href="#campaigns" tone="forest" className="mt-5">
+                Learn more
               </PillLink>
             </div>
-          </Container>
-          <Flower data-reveal="pop" className="drift absolute bottom-[14%] left-[72%] hidden size-9 text-sun md:block" />
+          </div>
         </section>
 
-        <div data-stagger="160" className="grid overflow-hidden rounded-b-[24px] md:grid-cols-2">
-          {/* Yellow campaign panel */}
-          <section aria-labelledby="promo-title" className="flex items-center justify-center bg-sun px-6 py-10 md:min-h-[304px] md:px-10">
-            <div data-reveal="up" className="flex w-full max-w-[460px] items-center gap-6">
-              <div className="relative size-[120px] shrink-0 overflow-hidden rounded-[14px] sm:size-[164px]">
-                <Image src={asset("/images/food-aid.jpg")} alt="A woven bag packed with rice, vegetables, fruit and bread" fill sizes="164px" className="object-cover" />
-              </div>
-              <div className="min-w-0">
-                <h2 id="promo-title" className="text-[24px] leading-[1.02] text-ink sm:text-[28px]">
-                  Emergency food aid in South Africa
-                </h2>
-                <p className="num mt-3 text-[12px] leading-[1.5] text-ink/80">
-                  <span className="font-semibold text-ink">Raised: $24,860</span>
-                  <span className="mx-2 text-ink/40">/</span>
-                  Goal: $40,000
-                </p>
-                <PillLink href="#campaigns" tone="forest" className="mt-5">
-                  Learn more
-                </PillLink>
-              </div>
-            </div>
-          </section>
-
-          {/* Pale green donation panel */}
-          <section id="donate" aria-labelledby="donate-title" className="flex flex-col items-center justify-center bg-pale px-6 py-10 text-center md:min-h-[304px]">
-            <h2 id="donate-title" data-reveal="up" className="mb-5 text-[24px] leading-none text-ink sm:text-[28px]">
-              Make a donation today
-            </h2>
-            <div data-reveal="up" className="w-full">
-              <DonateForm />
-            </div>
-          </section>
-        </div>
-      </Inset>
+        {/* Pale green donation panel */}
+        <section id="donate" aria-labelledby="donate-title" className="flex flex-col items-center justify-center bg-pale px-6 py-10 text-center md:min-h-[304px]">
+          <h2 id="donate-title" data-reveal="up" className="mb-5 text-[24px] leading-none text-ink sm:text-[28px]">
+            Make a donation today
+          </h2>
+          <div data-reveal="up" className="w-full">
+            <DonateForm />
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
